@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const routes = require("./routes");
+const path = require("path");
 
 const PORT = process.env.PORT || 8000;
 
@@ -22,6 +23,7 @@ try {
 } catch (err) {
   console.log(err);
 }
+app.use("/files", express.static(path.resolve(__dirname, "..", "files")));
 app.use(routes);
 
 app.listen(PORT, () => {
