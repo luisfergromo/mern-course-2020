@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 module.exports = {
-  async store(req, res) {
+  async createUser(req, res) {
     try {
       console.warn(req.body);
       const { firstName, lastName, password, email } = req.body;
@@ -25,6 +25,20 @@ module.exports = {
     } catch (err) {
       console.warn(err);
       throw Error(`Error while registering a new user : ${err}`);
+    }
+  },
+  async getByUserId(req, res) {
+    const { userId } = req.params;
+
+    try {
+      const user = await User.findById(userId);
+      return res.json(user);
+    } catch (err) {
+      return res.status(400).json({
+        message: "UserId not found",
+      });
+      // console.warn(err);
+      // throw Error(`Error while registering a new user : ${err}`);
     }
   },
 };
